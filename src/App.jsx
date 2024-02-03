@@ -56,6 +56,7 @@ function App() {
   };
   return (
     <>
+      <h1>ERC20</h1>
       <label>Name: </label>
       <input type="text" value={name} onChange={handleNameChange} />
       <br />
