@@ -17,6 +17,7 @@ const App = () => {
     setActiveFileType('ERC20');
   };
   return (
+<<<<<<< HEAD
     <div>
       
       {/* Button for ERC721 */}
@@ -37,6 +38,30 @@ const App = () => {
       {activeFileType === 'ERC1155' && <ERC1155 />}
       {activeFileType === 'ERC20' && <ERC20 />}
     </div>
+=======
+    <>
+      <h1>ERC20</h1>
+      <label>Name: </label>
+      <input type="text" value={name} onChange={handleNameChange} />
+      <br />
+      <label>Symbol: </label>
+      <input type="text" value={symbol} onChange={handleSymbolChange} />
+      <br />
+      <label>Mintable</label>
+      <input type="checkbox" onChange={(e) => handleChange(e)} />
+      <label>Burnable</label>
+      <input type="checkbox" onChange={(f) => handleChange1(f)} />
+      <label>Pausable</label>
+      <input type="checkbox" onChange={(g) => handleChange2(g)} />      
+      <label>Votes</label>
+      <input type="checkbox" onChange={(h) => handleChange3(h)} />
+      <label>Permit</label>
+      <input type="checkbox" onChange={(i) => handleChange4(i)} />
+
+
+      <pre>{code}</pre>
+    </>
+>>>>>>> 72ab1e44188cde6a6956144b3e01979891dd7ae7
   );
 };
 
