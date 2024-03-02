@@ -3,6 +3,7 @@ import ERC20 from './ERC20.jsx';
 import ERC721 from './ERC721.jsx';
 import ERC1155 from './ERC1155.jsx';
 import ERC721A from './ERC721A.jsx';
+import ERC404 from './ERC404.jsx';
 
 import './App.css';
 
@@ -20,6 +21,9 @@ const App = () => {
   };
   const selectERC721A = () => {
     setActiveFileType('ERC721A');
+  };
+  const selectERC404 = () => {
+    setActiveFileType('ERC404')
   };
   return (
     <div>
@@ -39,12 +43,17 @@ const App = () => {
       <button className="toggle-button" onClick={selectERC721A}>
         ERC721A
       </button>
+      <button className="toggle-button" onClick={selectERC404}>
+        ERC404
+      </button>
       {/* Render different components based on active file type */}
       
       {activeFileType === 'ERC721' && <ERC721 />}
       {activeFileType === 'ERC1155' && <ERC1155 />}
       {activeFileType === 'ERC20' && <ERC20 />}
       {activeFileType === 'ERC721A' && <ERC721A />}
+      {activeFileType === 'ERC404' && <ERC404 />}
+
 
     </div>
   );
