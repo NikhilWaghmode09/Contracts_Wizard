@@ -80,6 +80,7 @@ const App1 = () => {
   return (
     <div className="container">
       <div className="checkbox">
+      <h1>ERC721A</h1>
         <label>
           Mintable
           <input type="checkbox" checked={functions.mint} onChange={() => mintableFun()} />

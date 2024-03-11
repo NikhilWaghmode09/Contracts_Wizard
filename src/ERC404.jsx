@@ -154,6 +154,7 @@ const App1 = () => {
   return (
     <div className="container">
       <div className="checkbox">
+      <h1>ERC404</h1>
         <label>
           Mintable
           <input type="checkbox" checked={functions.mint} onChange={() => mintableFun()} />
@@ -167,7 +168,7 @@ const App1 = () => {
           <input type="checkbox" checked={functions.merkle} onChange={() => merkleFun()} />
         </label>
         <label>
-           Transfer Exempt
+          Transfer Exempt
           <input type="checkbox" checked={functions.exempt} onChange={() => exemptFun()} />
         </label>
       </div>
