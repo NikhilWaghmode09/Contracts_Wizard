@@ -12,6 +12,16 @@ const App1 = () => {
   const [mintableconstructor, setmintableconstructor] = useState('');
   const [mintablefunction, setmintablefunction] = useState('');
 
+  const [name, setname] = useState('');
+  const [symbol, setsymbol] = useState('');
+  useState(() => [name, symbol]);
+  const handleNameChange = (event) => {
+    setname(event.target.value);
+  };
+  const handleSymbolChange = (event) => {
+    setsymbol(event.target.value);
+  };
+
   const [functions, setFunctions] = useState({
     mint: false,
     burn: false,
@@ -69,10 +79,9 @@ const App1 = () => {
   
   import 'erc721a/contracts/ERC721A.sol';${mintableimport}${burnableimport}${queryableimport}
 
-  contract MyToken is ERC721A ${mintableinherit} ${burnableinherit} ${queryableinherit} {
-    constructor(${mintableparameter}) ERC721A('MyToken', 'MTK') ${mintableconstructor} 
+  contract ${name || "ExampleToken"} is ERC721A ${mintableinherit} ${burnableinherit} ${queryableinherit}{
+    constructor(${mintableparameter}) ERC721A ("${name || "ExampleToken"}","${symbol || "ETK"}") ${mintableconstructor} 
     {}
-
     ${mintablefunction}
   }
   `;
@@ -81,6 +90,12 @@ const App1 = () => {
     <div className="container">
       <div className="checkbox">
       <h1>ERC721A</h1>
+        <label> Name: </label>
+          <input type ="text" value={name} onChange={handleNameChange} />
+          <br />
+        <label> Symbol: </label>
+          <input type ="text" value={symbol} onChange={handleSymbolChange} />
+          <br />
         <label>
           Mintable
           <input type="checkbox" checked={functions.mint} onChange={() => mintableFun()} />
@@ -101,4 +116,4 @@ const App1 = () => {
   );
 };
 
-export default App1;
+export default App1; 

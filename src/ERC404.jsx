@@ -21,6 +21,20 @@ const App1 = () => {
   const [exemptconstructordata,setexemptconstructordata] = useState('');
   const [exemptfunction, setexemptfunction] = useState('');
 
+  const [name, setname] = useState('');
+  const [symbol, setsymbol] = useState('');
+  const [decimal, setdecimal] = useState('');
+  useState(() => [name, symbol, decimal]);
+
+  const handleNameChange = (event) => {
+    setname(event.target.value);
+  };
+  const handleSymbolChange = (event) => {
+    setsymbol(event.target.value);
+  };
+  const handlesDecimalChange = (event) => {
+    setdecimal(event.target.value);
+  };
 
   const [functions, setFunctions] = useState({
     mint: false,
@@ -136,12 +150,10 @@ const App1 = () => {
   import {ERC404} from "./ERC404.sol";${mintableimport}${merkleimport}${exemptimport}
   import {Strings} from "@openzeppelin/contracts/utils/Strings.sol"; 
   
-  contract MyToken is ERC404${mintableinherit}${merkleinherit}${exemptinherit} {
+  contract ${name || "ExampleToken"} is ERC404${mintableinherit}${merkleinherit}${exemptinherit} {
     constructor(
-      string memory name_,
-      string memory symbol_,
-      uint8 decimals_ ${mintableparameter}${exemptparameter}
-    ) ERC404(name_, symbol_, decimals_) ${mintableconstructor}${exemptconstructor} {${exemptconstructordata}
+     ${mintableparameter}${exemptparameter}
+    ) ERC404("${name || "ExampleToken"}", "${symbol || "ETK"}", ${decimal || "0"}) ${mintableconstructor}${exemptconstructor} {${exemptconstructordata}
     }
 
     function tokenURI(uint256 id_) public pure override returns (string memory) {
@@ -155,6 +167,15 @@ const App1 = () => {
     <div className="container">
       <div className="checkbox">
       <h1>ERC404</h1>
+        <label> Name: </label>
+          <input type ="text" value={name} onChange={handleNameChange} />
+          <br />
+        <label> Symbol: </label>
+          <input type ="text" value={symbol} onChange={handleSymbolChange} />
+          <br />
+        <label> Decimal: </label>
+          <input type ="number" value={decimal} onChange={handlesDecimalChange} />
+          <br />
         <label>
           Mintable
           <input type="checkbox" checked={functions.mint} onChange={() => mintableFun()} />

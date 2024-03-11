@@ -6,6 +6,16 @@ const App1 = () => {
   const [setuser, setsetuser] = useState('');
   const [supportsinterface, setsupportsinterface] = useState('');
 
+  const [name, setname] = useState('');
+  const [symbol, setsymbol] = useState('');
+  useState(() => [name, symbol]);
+  const handleNameChange = (event) => {
+    setname(event.target.value);
+  };
+  const handleSymbolChange = (event) => {
+    setsymbol(event.target.value);
+  };
+
   const [functions, setFunctions] = useState({
     get: false,
     set: false,
@@ -64,10 +74,10 @@ const App1 = () => {
   
   import "./ERC4907.sol";
   
-  contract MyToken is ERC4907 {
+  contract ${name || "ExampleToken"} is ERC4907 {
     constructor(string memory name, 
       string memory symbol
-    ) ERC4907(name,symbol){         
+    ) ERC4907("${name || "ExampleToken"}","${symbol || "ETK"}"){         
     }
   ${getuser}${setuser}${supportsinterface}
   }
@@ -77,6 +87,12 @@ const App1 = () => {
     <div className="container">
       <div className="checkbox">
       <h1>ERC4907</h1>
+        <label> Name: </label>
+          <input type ="text" value={name} onChange={handleNameChange} />
+          <br />
+        <label> Symbol: </label>
+          <input type ="text" value={symbol} onChange={handleSymbolChange} />
+          <br />
         <label>
           Set User
           <input type="checkbox" checked={functions.set} onChange={() => setFun()} />
