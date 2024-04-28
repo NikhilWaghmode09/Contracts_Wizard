@@ -102,7 +102,7 @@ const ContractDisplay = () => {
         theme={atomOneLight}
         text={code}
         language="javascript"
-        customStyle={{ fontFamily: 'monospace', fontSize: '0.8rem' }}
+        customStyle={{ fontFamily: 'monospace', fontSize: '0.9rem' }}
       />
     </div>
   )
