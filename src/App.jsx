@@ -12,7 +12,11 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
-  return <RouterProvider router={router} />
+  return (
+    <div className="container mx-auto px-8 py-2">
+      <RouterProvider router={router} />
+    </div>
+  )
 }
 
 export default App
