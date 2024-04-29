@@ -1,4 +1,4 @@
-import ercdemogenerator from "../contractgenerators/ercdemogenerator"
+import erc721generator from "../contractgenerators/erc721generator"
 
 const ERC721 = {
   formFields: [
@@ -23,6 +23,11 @@ const ERC721 = {
       type: 'checkbox',
     },
     {
+      name: 'incremental',
+      label: 'Auto Increment IDs',
+      type: 'checkbox',
+    },
+    {
       name: 'burnable',
       label: 'Burnable',
       type: 'checkbox',
@@ -38,12 +43,17 @@ const ERC721 = {
       type: 'checkbox',
     },
     {
-      name: 'permit',
-      label: 'Permit',
+      name: 'uristorage',
+      label: 'URI Storage',
+      type: 'checkbox'
+    },
+    {
+      name: 'enumerable',
+      label: 'Enumerable',
       type: 'checkbox',
     }
   ],
-  generatorFunction: ercdemogenerator
+  generatorFunction: erc721generator
 }
 
 export default ERC721
