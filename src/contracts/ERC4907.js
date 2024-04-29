@@ -1,4 +1,4 @@
-import ercdemogenerator from "../contractgenerators/ercdemogenerator"
+import erc4907generator from "../contractgenerators/erc4907generator"
 
 const ERC4907 = {
   formFields: [
@@ -28,7 +28,7 @@ const ERC4907 = {
       type: 'checkbox',
     },
   ],
-  generatorFunction: ercdemogenerator
+  generatorFunction: erc4907generator
 }
 
 export default ERC4907
