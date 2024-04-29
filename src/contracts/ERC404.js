@@ -1,6 +1,6 @@
 import ercdemogenerator from "../contractgenerators/ercdemogenerator"
 
-const erc404 = {
+const ERC404 = {
   formFields: [
     {
       name: 'name',
@@ -41,4 +41,4 @@ const erc404 = {
   generatorFunction: ercdemogenerator
 }
 
-export default erc404
+export default ERC404

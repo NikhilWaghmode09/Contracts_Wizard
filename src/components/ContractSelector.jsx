@@ -7,7 +7,7 @@ const contractTypes = [
   'ERC20',
   'ERC721A',
   'ERC404',
-  'ARC4907',
+  'ERC4907',
 ]
 
 const ContractSelector = () => {

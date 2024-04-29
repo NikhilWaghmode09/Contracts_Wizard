@@ -1,12 +1,12 @@
-import erc1155 from "./ERC1155"
-import erc20 from "./ERC20"
-import erc404 from "./ERC404"
-import erc4907 from "./ERC4907"
-import erc721 from "./ERC721"
-import erc721a from "./ERC721A"
+import ERC1155 from "./ERC1155"
+import ERC20 from "./ERC20"
+import ERC404 from "./ERC404"
+import ERC4907 from "./ERC4907"
+import ERC721 from "./ERC721"
+import ERC721A from "./ERC721A"
 
 const contracts = {
-  erc20, erc404, erc721, erc721a, erc1155, erc4907
+  ERC20, ERC404, ERC721, ERC721A, ERC1155, ERC4907
 }
 
 export default contracts
