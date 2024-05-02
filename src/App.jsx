@@ -3,6 +3,7 @@ import React, { useState, createContext } from 'react'
 import './App.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import CreateContractScreen from './screens/CreateContractScreen'
+import contracts from './contracts'
 
 export const AppContext = createContext()
 
@@ -14,7 +15,9 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
-  const [selectedContract, setSelectedContract] = useState('ERC721')
+  const [selectedContract, setSelectedContract] = useState(
+    Object.keys(contracts)[0]
+  )
   const [userPreferences, setUserPreferences] = useState({})
 
   return (

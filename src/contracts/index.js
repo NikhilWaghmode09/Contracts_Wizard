@@ -6,7 +6,7 @@ import ERC721 from "./ERC721"
 import ERC721A from "./ERC721A"
 
 const contracts = {
-  ERC20, ERC404, ERC721, ERC721A, ERC1155, ERC4907
+  ERC721, ERC1155, ERC20, ERC404, ERC721A, ERC4907
 }
 
 export default contracts
