@@ -20,9 +20,8 @@ pragma solidity ^0.8.20;
   
 import 'erc721a/contracts/ERC721A.sol';${mintableimport}${burnableimport}${queryableimport}
 
-contract ${name} is ERC721A ${mintableinherit} ${burnableinherit} ${queryableinherit}{
-  constructor(${mintableparameter}) ERC721A ("${name}","${symbol}") ${mintableconstructor} 
-  {}
+contract ${name} is ERC721A${mintableinherit}${burnableinherit}${queryableinherit}{
+  constructor(${mintableparameter}) ERC721A ("${name}","${symbol}") ${mintableconstructor}{}
   ${mintablefunction}
 }
   `;
