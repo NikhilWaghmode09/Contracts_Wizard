@@ -4,6 +4,7 @@ import './App.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import CreateContractScreen from './screens/CreateContractScreen'
 import contracts from './contracts'
+import SalesOptionsScreen from './screens/SalesOptionsScreen'
 
 export const AppContext = createContext()
 
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <CreateContractScreen />,
+  },
+  {
+    path: '/salesoptions',
+    element: <SalesOptionsScreen />,
   },
 ])
 
