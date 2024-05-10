@@ -1,15 +1,15 @@
 const getErc721String = ({ name, symbol, mintable, burnable, pausable, votes, baseuri, uristorage, enumerable, incremental }) => {
-  let mintableimport = mintable ?  `import "@openzeppelin/contracts/access/Ownable.sol";` : '';
-  let mintableinherit = mintable ?  `, Ownable` : '';
-  let mintableparameter = mintable ?  `address initialOwner` : '';
-  let mintableconstructor = mintable ?  `Ownable(initialOwner)`: '';
-  let mintablefunction = mintable ?  `
+  let ownableimport = (mintable || pausable) ? `import "@openzeppelin/contracts/access/Ownable.sol";` : '';
+  let ownableinherit = (mintable || pausable) ? `, Ownable` : '';
+  let ownableparameter = (mintable || pausable) ? `address initialOwner` : '';
+  let ownableconstructor = mintable ? `Ownable(initialOwner)` : '';
+  let mintablefunction = (mintable && !incremental) ? `
   function safeMint(address to, uint256 tokenId) public onlyOwner {
     _safeMint(to, tokenId);
   }` : '';
 
-  let incrementaldeclaration = incremental ? `uint256 private _nextTokenId;` : '';
-  let incrementalfunction = incremental ? `
+  let incrementaldeclaration = (incremental && mintable) ? `uint256 private _nextTokenId;` : '';
+  let incrementalfunction = (mintable && incremental) ? `
   function safeMint(address to) public onlyOwner {
     uint256 tokenId = _nextTokenId++;
     _safeMint(to, tokenId);
@@ -22,11 +22,8 @@ const getErc721String = ({ name, symbol, mintable, burnable, pausable, votes, ba
   let burnableimport = burnable ? `import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol"; ` : '';
   let burnableinherit = burnable ? `, ERC721Burnable` : '';
 
-  let pausableimport = pausable ? `import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
-  import "@openzeppelin/contracts/access/Ownable.sol";` : '';
-  let pausableinherit = pausable ? `, ERC721Pausable, Ownable` : '';
-  let pausableparameter = pausable ? `address initialOwner` : '';
-  let pausableconstructor = pausable ?  `Ownable(initialOwner)` : '';
+  let pausableimport = pausable ? `import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";` : '';
+  let pausableinherit = pausable ? `, ERC721Pausable` : '';
   let pausablefunction = pausable ? `
   function pause() public onlyOwner {
     _pause();
@@ -87,11 +84,17 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Votes.sol";` : '';
   return `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
   
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";${mintableimport}${burnableimport}${pausableimport}${voteimport}${uristorageimport}${enumerableimport}
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+${ownableimport}
+${burnableimport}
+${pausableimport}
+${voteimport}
+${uristorageimport}
+${enumerableimport}
   
-contract ${name} is ERC721${mintableinherit}${burnableinherit}${pausableinherit}${voteinherit}${uristorageinherit}${enumerableinherit} {
+contract ${name} is ERC721${ownableinherit}${burnableinherit}${pausableinherit}${voteinherit}${uristorageinherit}${enumerableinherit} {
   ${incrementaldeclaration}
-  constructor(${mintableparameter}${pausableparameter}) ERC721("${name}", "${symbol}") ${mintableconstructor}${pausableconstructor}${voteconstructor}{}
+  constructor(${ownableparameter}) ERC721("${name}", "${symbol}") ${ownableconstructor}${voteconstructor}{}
   ${mintablefunction}${pausablefunction}${votefunction}${uristoragefunction}${enumerablefunction}${incrementalfunction}${baseUrifunction}
 }
 
@@ -103,7 +106,7 @@ const erc721generator = ({ name, symbol, mintable, burnable, pausable, votes, ba
     {
       name: name || 'ExampleToken',
       symbol: symbol || 'ETK',
-      baseUri: baseuri || '',
+      baseuri: baseuri || '',
       mintable: mintable || false,
       burnable: burnable || false,
       pausable: pausable || false,
