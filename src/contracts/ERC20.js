@@ -13,6 +13,11 @@ const ERC20 = {
       type: 'text',
     },
     {
+      name: 'premint',
+      label: 'Premint',
+      type: 'text',
+    },
+    {
       name: 'mintable',
       label: 'Mintable',
       type: 'checkbox',
@@ -28,8 +33,8 @@ const ERC20 = {
       type: 'checkbox',
     },
     {
-      name: 'votes',
-      label: 'Votes',
+      name: 'flash',
+      label: 'Flash',
       type: 'checkbox',
     },
     {

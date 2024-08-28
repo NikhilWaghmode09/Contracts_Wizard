@@ -13,11 +13,6 @@ const ERC1155 = {
       type: 'text',
     },
     {
-      name: 'mintable',
-      label: 'Mintable',
-      type: 'checkbox',
-    },
-    {
       name: 'burnable',
       label: 'Burnable',
       type: 'checkbox',
@@ -33,8 +28,13 @@ const ERC1155 = {
       type: 'checkbox',
     },
     {
-      name: 'upgradableuri',
-      label: 'Upgradable URI',
+      name: 'updatableuri',
+      label: 'Updatable URI',
+      type: 'checkbox',
+    },
+    {
+      name: 'soulbound',
+      label: 'Soulbound',
       type: 'checkbox',
     }
   ],

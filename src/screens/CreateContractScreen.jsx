@@ -18,12 +18,12 @@ const CreateContractScreen = () => {
       <h1 className="text-slate-700 font-bold text-5xl">{selectedContract}</h1>
       <FormRenderer schema={contracts[selectedContract].formFields} />
       <ContractDisplay />
-      <button
+      {/* <button
         onClick={() => navigate('/salesoptions')}
         className="mb-8 ml-auto uppercase bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-700"
       >
         Next
-      </button>
+      </button> */}
     </div>
   )
 }

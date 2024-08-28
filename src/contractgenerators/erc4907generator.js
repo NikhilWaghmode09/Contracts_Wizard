@@ -1,47 +1,119 @@
-const getErc4907String = ({ name, symbol, setuser, getuser, supportsinterface }) => {
-  let setuserfun = setuser ? `
-  function setUserExpires(uint256 tokenId, address user, uint64 expires) public virtual{
-    setUser(tokenId, user, expires);
-    emit UpdateUser(tokenId, user, expires);
-  }
-  ` : '';
+const getErc4907String = ({name, symbol, burnable, pausable, uristorage, soulbound, enumerable}) => {
+  let burnable_fun = (burnable && !uristorage ) ? `
+      function burn(uint256 tokenId) public {
+          require(_isAuthorized(msg.sender, tokenId), "ERC721: caller is not authorized");
+          _burn(tokenId);
+          delete _users[tokenId]; // Remove user info associated with the token
+      }` : '';
 
-  let getuserfun = getuser ? `
-  function getuseraddress(uint256 tokenId) public view returns(address) {
-    return userOf(tokenId);
-  }
+  let uriburn_fun = (uristorage && burnable ) ?   `function _burn(uint256 tokenId) internal virtual override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
+    }
 
-  function getuserexpires(uint256 tokenId) public view returns (uint256) {
-    return userExpires(tokenId);
-  }
-  ` : '';
-
-  let supportsinterfacefun = supportsinterface ? `
-  function checkInterface(bytes4 interfaceId) public view returns (bool) {
-    return supportsInterface(interfaceId);
-  }
-  ` : '';
-
-
-  return `// SPDX-License-Identifier: CC0-1.0
-pragma solidity ^0.8.0;
+    function tokenURI(uint256 tokenId) public view virtual override(ERC721, ERC721URIStorage) returns (string memory) {
+        return super.tokenURI(tokenId);
+    }` : '';
   
-import "./ERC4907.sol";
+  let soulbound_fun = soulbound ? `
+      function _transfer(address from, address to, uint256 tokenId) internal override {
+          require(false, "SoulboundERC4907: Transfers are not allowed");
+      }
+
+      function approve(address to, uint256 tokenId) public override {
+          require(false, "SoulboundERC4907: Approvals are not allowed");
+      }
+
+      function setApprovalForAll(address operator, bool approved) public override {
+          require(false, "SoulboundERC4907: Approvals are not allowed");
+      }\n` : '';
+
+  let pausableimport = pausable ? `\nimport "@openzeppelin/contracts/utils/Pausable.sol";` : '';
+  let pausableinherit = pausable ? `, Pausable` : '';
+  let pausable_fun = pausable ? `
+      function pause() public onlyOwner {
+          _pause();
+      }
+
+      function unpause() public onlyOwner {
+          _unpause();
+      }\n` : '';
+  let uristorageimport = uristorage ? `import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";` : '';
+  let uristorageinherit = uristorage ? `, ERC721URIStorage` : '';
+
+  let enumerableimport = enumerable ? `import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";` : '';
+  let enumerableinherit = enumerable ? `, ERC721Enumerable` : '';
+  let enumerable_fun = enumerable ? `
+      function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual override(ERC721, ERC721Enumerable) {
+          super._beforeTokenTransfer(from, to, tokenId);
+      }
+
+      function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC721Enumerable) returns (bool) {
+          return super.supportsInterface(interfaceId);
+      }` : '';
+
+  return `// SPDX-License-Identifier: MIT
+  pragma solidity ^0.8.0;
   
-contract ${name} is ERC4907 {
-  constructor(string memory name, string memory symbol) ERC4907("${name}","${symbol}") {}
-  ${getuserfun}${setuserfun}${supportsinterfacefun}
-}`;
+  import "@openzeppelin/contracts/token/ERC721/ERC721.sol";${uristorageimport}
+  import "./IERC4907.sol";${enumerableimport}${pausableimport}
+  import "@openzeppelin/contracts/access/Ownable.sol";
+  
+  
+  
+  contract ${name} is ERC721${uristorageinherit}, IERC4907${enumerableinherit}${pausableinherit}, Ownable {
+  
+      struct UserInfo {
+          address user;
+          uint64 expires;
+      }
+  
+      mapping(uint256 => UserInfo) internal _users;
+  
+      constructor() ERC721(${name}, ${symbol}) Ownable(msg.sender) {
+      } //tokenticker is nothing but symbol.
+  
+      function mint(uint256 tokenId) public onlyOwner {
+          _mint(msg.sender, tokenId);
+      }
+      
+      function _baseURI() internal pure override returns (string memory) {
+          return "";
+      }
+      
+      function setUser(uint256 tokenId, address user, uint64 expires) public virtual override {
+          require(_isAuthorized(msg.sender, user, tokenId), "ERC721: transfer caller is not owner nor authorized");
+          require(userOf(tokenId) == address(0), "User already assigned");
+          require(expires > block.timestamp, "expires should be in future");
+          UserInfo storage info = _users[tokenId];
+          info.user = user;
+          info.expires = expires;
+          emit UpdateUser(tokenId, user, expires);
+      }
+  
+      function userOf(uint256 tokenId) public view virtual override returns (address) {
+          if (uint256(_users[tokenId].expires) >= block.timestamp) {
+              return _users[tokenId].user;
+          }
+          return address(0);
+      
+  
+      function userExpires(uint256 tokenId) public view virtual override returns (uint256) {
+          return _users[tokenId].expires;
+      }
+      ${uriburn_fun}${soulbound_fun}${pausable_fun}${burnable_fun}${enumerable_fun}
+  }`;
 }
 
-const erc4907generator = ({ name, symbol, setuser, getuser, supportsinterface }) => {
+const erc4907generator = ({name, symbol, burnable, pausable, uristorage, soulbound, enumerable}) => {
   return getErc4907String(
     {
       name: name || 'ExampleToken',
       symbol: symbol || 'ETK',
-      setuser: setuser || false,
-      getuser: getuser || false,
-      supportsinterface: supportsinterface || false
+      burnable: burnable || false,
+      pausable: pausable || false,
+      uristorage: uristorage || false,
+      soulbound: soulbound || false,
+      enumerable: enumerable || false
     }
   )
 }

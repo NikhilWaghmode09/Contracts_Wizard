@@ -18,16 +18,6 @@ const ERC721 = {
       type: 'text',
     },
     {
-      name: 'mintable',
-      label: 'Mintable',
-      type: 'checkbox',
-    },
-    {
-      name: 'incremental',
-      label: 'Auto Increment IDs',
-      type: 'checkbox',
-    },
-    {
       name: 'burnable',
       label: 'Burnable',
       type: 'checkbox',
@@ -38,8 +28,8 @@ const ERC721 = {
       type: 'checkbox',
     },
     {
-      name: 'votes',
-      label: 'Votes',
+      name: 'soulbound',
+      label: 'Soulbound',
       type: 'checkbox',
     },
     {
